@@ -44,17 +44,35 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db():
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """Fuction documentation"""
     db_username = os.getenv("PERSONAL_DATA_DB_USERNAME")
     db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD")
     db_host = os.getenv("PERSONAL_DATA_DB_HOST")
     db_name = os.getenv("PERSONAL_DATA_DB_NAME")
-    connection = mysql.connector.connect(user=db_username,
-                                         password=db_password,
-                                         host=db_host,
-                                         database=db_name)
+    connection = mysql.connector.connection.MySQLConnection(user=db_username,
+                                                            password=db_password,
+                                                            host=db_host,
+                                                            database=db_name)
     return connection
+
+
+def main() -> None:
+    """Function documentation"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    names_list = [i[0] for i in cursor.description]
+
+    logger = get_logger()
+
+    for row in cursor:
+        string_row = ''.join(f'{f}={str(r)}; ' for r,
+                             f in zip(row, names_list))
+        logger.info(string_row.strip())
+
+    cursor.close()
+    db.close()
 
 
 class RedactingFormatter(logging.Formatter):
