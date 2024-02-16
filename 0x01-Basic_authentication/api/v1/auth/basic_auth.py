@@ -101,5 +101,6 @@ class BasicAuth(Auth):
                     email, password = self.extract_user_credentials(
                         decoded_token)
                     if email:
-                        return self.user_object_from_credentials(email, password)
+                        return self.user_object_from_credentials(
+                            email, password)
         return
