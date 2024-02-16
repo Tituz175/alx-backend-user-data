@@ -21,13 +21,14 @@ class Auth:
             return True
 
         path = path if path[-1] == "/" else F"{path}/"
-        if path in excluded_paths:
-            return False
 
-        pattern = r"^\/api\/v1\/.*stat.*"
-        if re.search(pattern, path):
-            return False
-        
+        for link in excluded_paths:
+            if link.startswith(path):
+                return False
+            elif link[-1] == "*":
+                if path.startswith(link[:-1]):
+                    return False
+
         return True
 
     def authorization_header(self, request=None) -> str:
