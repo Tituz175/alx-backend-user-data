@@ -4,6 +4,7 @@ This module manages the API authentication
 """
 from flask import request
 from typing import List, TypeVar
+import re
 
 
 class Auth:
@@ -20,14 +21,14 @@ class Auth:
             return True
 
         path = path if path[-1] == "/" else F"{path}/"
-        # if path in excluded_paths:
-        #     return False
+        if path in excluded_paths:
+            return False
 
-        for link in excluded_paths:
-            if path[:-1] == link[:-1]:
-                return False
-            else:
-                return True
+        pattern = r"^\/api\/v1\/.*stat.*"
+        if re.search(pattern, path):
+            return False
+        
+        return True
 
     def authorization_header(self, request=None) -> str:
         """
