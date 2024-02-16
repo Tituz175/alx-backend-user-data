@@ -20,10 +20,14 @@ class Auth:
             return True
 
         path = path if path[-1] == "/" else F"{path}/"
-        if path in excluded_paths:
-            return False
+        # if path in excluded_paths:
+        #     return False
 
-        return True
+        for link in excluded_paths:
+            if path[:-1] == link[:-1]:
+                return False
+            else:
+                return True
 
     def authorization_header(self, request=None) -> str:
         """
