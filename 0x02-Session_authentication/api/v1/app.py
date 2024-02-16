@@ -40,6 +40,8 @@ def before_request():
                 abort(401, description="Unauthorized")
             if not (auth.current_user(request)):
                 abort(403, description="Forbidden")
+            else:
+                request.current_user = auth.current_user(request)
 
 
 @app.errorhandler(404)
