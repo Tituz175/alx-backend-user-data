@@ -22,6 +22,9 @@ if env_val == "auth":
 elif env_val == "basic_auth":
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
+elif env_val == "session_auth":
+    from api.v1.auth.session_auth import SessionAuth
+    auth = SessionAuth()
 
 
 @app.before_request
