@@ -91,7 +91,7 @@ class BasicAuth(Auth):
         Returns:
             str: _description_
         """
-        auth_header = self.authorization_header
+        auth_header = self.authorization_header(request)
         if auth_header:
             user_token = self.extract_base64_authorization_header(auth_header)
             if user_token:
