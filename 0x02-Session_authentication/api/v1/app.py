@@ -15,7 +15,6 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 env_val = os.getenv("AUTH_TYPE")
 
-
 if env_val == "auth":
     from api.v1.auth.auth import Auth
     auth = Auth()
@@ -30,10 +29,17 @@ elif env_val == "session_auth":
 @app.before_request
 def before_request():
     """
-    _summary_
+    Executes before each request.
+
+    Checks authentication for each request based on the authentication
+    type set in the environment variable.
+    If authentication is required for the requested path, it verifies
+    the presence of either an Authorization header or a session cookie.
+    If authentication is successful, it attaches the current user to
+    the request object.
 
     Returns:
-        str: _description_
+        None
     """
     if auth:
         excluded_paths = ['/api/v1/status/', '/api/v1/auth_session/login/',
@@ -50,21 +56,33 @@ def before_request():
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ Not found handler
+    """
+    Handles 404 errors.
+
+    Returns:
+        str: JSON response indicating the error.
     """
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """ unauthorized handler
+    """
+    Handles 401 errors.
+
+    Returns:
+        str: JSON response indicating the error.
     """
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
 def forbidden(error) -> str:
-    """ forbidden handler
+    """
+    Handles 403 errors.
+
+    Returns:
+        str: JSON response indicating the error.
     """
     return jsonify({"error": "Forbidden"}), 403
 

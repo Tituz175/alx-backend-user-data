@@ -9,16 +9,19 @@ from models.user import User
 
 class SessionAuth(Auth):
     """
-    Section authentication class
+    Session authentication class
     """
     user_id_by_session_id = {}
 
     def create_session(self, user_id: str = None) -> str:
         """
-        _summary_
+        Creates a session for the given user ID.
+
+        Args:
+            user_id (str): The ID of the user.
 
         Returns:
-            str: _description_
+            str: The session ID if successful, otherwise None.
         """
         if not user_id or not isinstance(user_id, str):
             return None
@@ -28,10 +31,14 @@ class SessionAuth(Auth):
 
     def user_id_for_session_id(self, session_id: str = None) -> str:
         """
-        _summary_
+        Retrieves the user ID associated with the given session ID.
+
+        Args:
+            session_id (str): The session ID.
 
         Returns:
-            str: _description_
+            str: The user ID associated with the session ID if found,
+            otherwise None.
         """
         if not session_id or not isinstance(session_id, str):
             return None
@@ -39,10 +46,14 @@ class SessionAuth(Auth):
 
     def current_user(self, request=None):
         """
-        _summary_
+        Retrieves the current user from the request.
+
+        Args:
+            request: The request object.
 
         Returns:
-            str: _description_
+            User: The current user object if authentication is successful,
+            otherwise None.
         """
         session_id = self.session_cookie(request)
         user_id = self.user_id_for_session_id(session_id)
