@@ -50,7 +50,7 @@ class Auth:
             str: _description_
         """
         return None
-    
+
     def session_cookie(self, request=None):
         """
         _summary_
