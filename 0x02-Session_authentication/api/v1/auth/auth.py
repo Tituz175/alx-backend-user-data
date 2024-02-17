@@ -8,19 +8,26 @@ import os
 
 
 class Auth:
-    """The authentication class"""
+    """
+    The authentication class
+    """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
-        _summary_
+        Checks if authentication is required for a given path.
+
+        Args:
+            path (str): The path to check for authentication requirement.
+            excluded_paths (List[str]): A list of paths that are excluded
+            from authentication.
 
         Returns:
-            str: _description_
+            bool: True if authentication is required, False otherwise.
         """
-        if not (path) or not (excluded_paths):
+        if not path or not excluded_paths:
             return True
 
-        path = path if path[-1] == "/" else F"{path}/"
+        path = path if path[-1] == "/" else f"{path}/"
         if path in excluded_paths:
             return False
 
@@ -28,10 +35,14 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """
-        _summary_
+        Retrieves the Authorization header from the request.
+
+        Args:
+            request: The request object.
 
         Returns:
-            str: _description_
+            str: The value of the Authorization header if present,
+            otherwise None.
         """
         if request is None:
             return None
@@ -44,19 +55,25 @@ class Auth:
 
     def current_user(self, request=None) -> TypeVar('User'):
         """
-        _summary_
+        Retrieves the current user.
+
+        Args:
+            request: The request object.
 
         Returns:
-            str: _description_
+            User: The current user object.
         """
         return None
 
     def session_cookie(self, request=None):
         """
-        _summary_
+        Retrieves the session cookie from the request.
+
+        Args:
+            request: The request object.
 
         Returns:
-            str: _description_
+            str: The value of the session cookie if present, otherwise None.
         """
         if not request:
             return None
