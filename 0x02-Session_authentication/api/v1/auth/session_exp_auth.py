@@ -11,14 +11,14 @@ from datetime import datetime, timedelta
 
 class SessionExpAuth(SessionAuth):
     """
-    Session authentication with expiration class 
+    Session authentication with expiration class
     """
     def __init__(self) -> None:
         super().__init__()
         duration = os.getenv("SESSION_DURATION")
+        self.session_duration = 0
         if duration.isdigit():
             self.session_duration = int(duration)
-        self.session_duration = 0
 
     def create_session(self, user_id: str = None) -> str:
         """
@@ -58,10 +58,10 @@ class SessionExpAuth(SessionAuth):
                 return session_dict.get("user_id")
             if "created_at" not in session_dict:
                 return None
+            time_now = datetime.now()
             set_time = timedelta(seconds=self.session_duration)
             exp_time = session_dict.get("created_at") + set_time
-            time_now = datetime.now()
             if exp_time < time_now:
                 return None
-            return session_dict.get("user_id")
-            
+            else:
+                return session_dict.get("user_id")
