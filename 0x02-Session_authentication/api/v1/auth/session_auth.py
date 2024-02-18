@@ -68,12 +68,10 @@ class SessionAuth(Auth):
         Return: return_description
         """
         session_id = self.session_cookie(request)
-        print(session_id)
         if not request or not session_id:
             return False
         user_id = self.user_id_for_session_id(session_id)
-        print(user_id)
         if not user_id:
             return False
-        self.user_id_by_session_id.__delattr__(user_id)
+        del self.user_id_by_session_id[session_id]
         return True
