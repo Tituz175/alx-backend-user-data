@@ -1,28 +1,30 @@
 #!/usr/bin/env python3
 """
-sumary_line
-
-Keyword arguments:
-argument -- description
-Return: return_description
+Module Name: user_model.py
+Description: This module defines the User class for managing
+user data in a database.
 """
+
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
-import bcrypt
 
 Base = declarative_base()
 
 
 class User(Base):
     """
-    sumary_line
+    User Class: Represents a user in the application.
 
-    Keyword arguments:
-    argument -- description
-    Return: return_description
+    Attributes:
+    - id (int): The unique identifier for the user.
+    - email (str): The email address of the user.
+    - hashed_password (str): The hashed password of the user.
+    - session_id (str): The session ID of the user (nullable).
+    - reset_token (str): The reset token for the user's password (nullable).
     """
 
     __tablename__ = 'users'
+
     id = Column(Integer, primary_key=True)
     email = Column(String(250), nullable=False)
     hashed_password = Column(String(250), nullable=False)
